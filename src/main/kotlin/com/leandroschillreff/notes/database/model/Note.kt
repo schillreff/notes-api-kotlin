@@ -1,4 +1,4 @@
-package com.leandroschillreff.notes.model
+package com.leandroschillreff.notes.database.model
 
 import org.bson.types.ObjectId
 import org.springframework.data.annotation.Id
