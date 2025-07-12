@@ -7,6 +7,10 @@ import org.bson.types.ObjectId
 import org.springframework.web.bind.annotation.*
 import java.time.Instant
 
+// POST http://localhost:8080/notes
+// GET http://localhost:8080/notes?ownerId=123
+// DEL http://localhost:8080/notes/123
+
 @RestController
 @RequestMapping("/notes")
 class NoteController(
@@ -48,11 +52,16 @@ class NoteController(
 
     @GetMapping
     fun findByOwnerId(
-        @RequestParam(required = false) ownerId: String
+        @RequestParam(required = true) ownerId: String
     ): List<NoteResponse> {
         return repository.findByOwnerId(ObjectId(ownerId)).map {
             it.toResponse()
         }
+    }
+
+    @DeleteMapping(path = ["/{id}"])
+    fun deleteById(@PathVariable id: String) {
+        repository.deleteById(ObjectId(id))
     }
 }
 
