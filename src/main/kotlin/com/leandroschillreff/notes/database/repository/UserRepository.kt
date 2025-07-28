@@ -1,4 +1,8 @@
 package com.leandroschillreff.notes.database.repository
 
-interface UserRepository {
+import com.leandroschillreff.notes.database.model.User
+import org.bson.types.ObjectId
+import org.springframework.data.mongodb.repository.MongoRepository
+
+interface UserRepository: MongoRepository<User, ObjectId> {
 }
