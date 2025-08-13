@@ -37,6 +37,13 @@ class JwtService(@Value("\${jwt.secret}") private val jwtSecret: String) {
         return tokenType == "access"
     }
 
+    fun validateRefreshToken(token: String): Boolean {
+        val claims = parseAllClaims(token) ?: return false
+        val tokenType = claims["type"] as? String ?: return false
+        return tokenType == "refresh"
+    }
+
+
 
     private fun parseAllClaims(token: String): Claims? {
         return try {
