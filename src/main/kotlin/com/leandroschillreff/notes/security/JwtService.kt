@@ -31,5 +31,18 @@ class JwtService(@Value("\${jwt.secret}") private val jwtSecret: String) {
         return generateToken(userId, type = "refresh", refreshTokenValidityMs)
     }
 
-    
+    fun validateAccessToken(token: String): Boolean {
+        val claims = parseAllClaims(token) ?: return false
+        val tokenType = claims["type"] as? String ?: return false
+        return tokenType == "access"
+    }
+
+
+    private fun parseAllClaims(token: String): Claims? {
+        return try {
+            Jwts.parser().verifyWith(secretKey).build().parseSignedClaims(token).payload
+        } catch (e: Exception) {
+            null
+        }
+    }
 }
