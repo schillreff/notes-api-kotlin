@@ -23,5 +23,9 @@ class JwtService(@Value("\${jwt.secret}") private val jwtSecret: String) {
             .signWith(secretKey, Jwts.SIG.HS256).compact()
     }
 
+    fun generateAccessToken(userId: String): String {
+        return generateToken(userId, type = "access", accessTokenValidityMs)
+    }
+
    
 }
