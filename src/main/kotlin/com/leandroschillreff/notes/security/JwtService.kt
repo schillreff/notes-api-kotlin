@@ -27,5 +27,9 @@ class JwtService(@Value("\${jwt.secret}") private val jwtSecret: String) {
         return generateToken(userId, type = "access", accessTokenValidityMs)
     }
 
-   
+    fun generateRefreshToken(userId: String): String {
+        return generateToken(userId, type = "refresh", refreshTokenValidityMs)
+    }
+
+    
 }
