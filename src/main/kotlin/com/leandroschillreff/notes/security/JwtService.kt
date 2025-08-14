@@ -44,16 +44,16 @@ class JwtService(@Value("\${jwt.secret}") private val jwtSecret: String) {
     }
 
     fun getUserIdFromToken(token: String): String {
-        val rawToken = if (token.startsWith("Bearer ")) {
-            token.removePrefix("Bearer ")
-        } else token
-        val claims = parseAllClaims(rawToken) ?: throw IllegalArgumentException("Invalid token.")
+        val claims = parseAllClaims(token) ?: throw IllegalArgumentException("Invalid token.")
         return claims.subject
     }
 
     private fun parseAllClaims(token: String): Claims? {
+        val rawToken = if (token.startsWith("Bearer ")) {
+            token.removePrefix("Bearer ")
+        } else token
         return try {
-            Jwts.parser().verifyWith(secretKey).build().parseSignedClaims(token).payload
+            Jwts.parser().verifyWith(secretKey).build().parseSignedClaims(rawToken).payload
         } catch (e: Exception) {
             null
         }
