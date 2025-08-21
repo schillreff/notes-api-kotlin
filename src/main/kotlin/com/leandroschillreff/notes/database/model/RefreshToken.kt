@@ -8,5 +8,6 @@ import java.time.Instant
 data class RefreshToken(
     val userId: ObjectId,
     val expiresAt: Instant,
+    val token: String,
     val createAt: Instant = Instant.now(),
 )
