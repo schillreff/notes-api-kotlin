@@ -1,4 +1,8 @@
 package com.leandroschillreff.notes.database.repository
 
-interface RefreshTokenRepository {
+import com.leandroschillreff.notes.database.model.RefreshToken
+import org.bson.types.ObjectId
+import org.springframework.data.mongodb.repository.MongoRepository
+
+interface RefreshTokenRepository : MongoRepository<RefreshToken, ObjectId> {
 }
