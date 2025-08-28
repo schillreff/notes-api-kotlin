@@ -37,6 +37,6 @@ class AuthService(
     }
 
     private fun storeRefreshToken(userId: ObjectId, rawRefreshToken: String) {
-
+        val hashed = hashEncoder.encode(rawRefreshToken)
     }
 }
