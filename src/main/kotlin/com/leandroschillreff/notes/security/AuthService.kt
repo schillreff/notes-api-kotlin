@@ -1,15 +1,20 @@
 package com.leandroschillreff.notes.security
 
 import com.leandroschillreff.notes.database.model.User
+import com.leandroschillreff.notes.database.repository.RefreshTokenRepository
 import com.leandroschillreff.notes.database.repository.UserRepository
+import org.bson.types.ObjectId
 import org.springframework.security.authentication.BadCredentialsException
 import org.springframework.stereotype.Service
+import java.security.MessageDigest
+import java.util.*
 
 @Service
 class AuthService(
     private val jwtService: JwtService,
     private val userRepository: UserRepository,
-    private val hashEncoder: HashEncoder
+    private val hashEncoder: HashEncoder,
+    private val refreshTokenRepository: RefreshTokenRepository
 ) {
     data class TokenPair(
         val accessToken: String,
@@ -31,5 +36,15 @@ class AuthService(
         val newRefreshToken = jwtService.generateRefreshToken(user.id.toHexString())
 
         return TokenPair(accessToken = newAccessToken, refreshToken = newRefreshToken)
+    }
+
+    private fun storeRefreshToken(userId: ObjectId, rawRefreshToken: String) {
+        val hashed = hashToken(rawRefreshToken)
+    }
+
+    private fun hashToken(token: String): String {
+        val digest = MessageDigest.getInstance("SHA-256")
+        val hashBytes = digest.digest(token.encodeToByteArray())
+        return Base64.getEncoder().encodeToString(hashBytes)
     }
 }
