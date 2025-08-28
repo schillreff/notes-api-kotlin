@@ -6,6 +6,7 @@ import com.leandroschillreff.notes.database.repository.UserRepository
 import org.bson.types.ObjectId
 import org.springframework.security.authentication.BadCredentialsException
 import org.springframework.stereotype.Service
+import java.security.MessageDigest
 
 @Service
 class AuthService(
@@ -41,6 +42,6 @@ class AuthService(
     }
 
     private fun hashToken(token: String): String {
-
+        val digest = MessageDigest.getInstance("SHA-256")
     }
 }
