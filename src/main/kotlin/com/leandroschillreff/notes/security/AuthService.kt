@@ -43,5 +43,6 @@ class AuthService(
 
     private fun hashToken(token: String): String {
         val digest = MessageDigest.getInstance("SHA-256")
+        val hashBytes = digest.digest(token.encodeToByteArray())
     }
 }
