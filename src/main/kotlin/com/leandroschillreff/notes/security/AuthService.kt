@@ -3,6 +3,7 @@ package com.leandroschillreff.notes.security
 import com.leandroschillreff.notes.database.model.User
 import com.leandroschillreff.notes.database.repository.RefreshTokenRepository
 import com.leandroschillreff.notes.database.repository.UserRepository
+import org.bson.types.ObjectId
 import org.springframework.security.authentication.BadCredentialsException
 import org.springframework.stereotype.Service
 
@@ -33,5 +34,9 @@ class AuthService(
         val newRefreshToken = jwtService.generateRefreshToken(user.id.toHexString())
 
         return TokenPair(accessToken = newAccessToken, refreshToken = newRefreshToken)
+    }
+
+    private fun storeRefreshToken(userId: ObjectId, rawRefreshToken: String) {
+
     }
 }
