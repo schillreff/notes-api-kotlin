@@ -7,6 +7,7 @@ import org.bson.types.ObjectId
 import org.springframework.security.authentication.BadCredentialsException
 import org.springframework.stereotype.Service
 import java.security.MessageDigest
+import java.util.*
 
 @Service
 class AuthService(
@@ -38,11 +39,12 @@ class AuthService(
     }
 
     private fun storeRefreshToken(userId: ObjectId, rawRefreshToken: String) {
-        val hashed = hashEncoder.encode(rawRefreshToken)
+        val hashed = hashToken(rawRefreshToken)
     }
 
     private fun hashToken(token: String): String {
         val digest = MessageDigest.getInstance("SHA-256")
         val hashBytes = digest.digest(token.encodeToByteArray())
+        return Base64.getEncoder().encodeToString(hashBytes)
     }
 }
