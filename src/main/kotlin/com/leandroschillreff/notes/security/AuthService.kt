@@ -47,7 +47,7 @@ class AuthService(
 
         refreshTokenRepository.save(
             RefreshToken(
-
+                userId = userId,
             )
         )
     }
