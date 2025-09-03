@@ -49,6 +49,7 @@ class AuthService(
             RefreshToken(
                 userId = userId,
                 expiresAt = espiresAt,
+                hashedToken = hashed
             )
         )
     }
