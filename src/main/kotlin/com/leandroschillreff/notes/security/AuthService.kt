@@ -1,5 +1,6 @@
 package com.leandroschillreff.notes.security
 
+import com.leandroschillreff.notes.database.model.RefreshToken
 import com.leandroschillreff.notes.database.model.User
 import com.leandroschillreff.notes.database.repository.RefreshTokenRepository
 import com.leandroschillreff.notes.database.repository.UserRepository
@@ -7,6 +8,7 @@ import org.bson.types.ObjectId
 import org.springframework.security.authentication.BadCredentialsException
 import org.springframework.stereotype.Service
 import java.security.MessageDigest
+import java.time.Instant
 import java.util.*
 
 @Service
@@ -40,6 +42,16 @@ class AuthService(
 
     private fun storeRefreshToken(userId: ObjectId, rawRefreshToken: String) {
         val hashed = hashToken(rawRefreshToken)
+        val expiryMs = jwtService.refreshTokenValidityMs
+        val espiresAt = Instant.now().plusMillis(expiryMs)
+
+        refreshTokenRepository.save(
+            RefreshToken(
+                userId = userId,
+                expiresAt = espiresAt,
+                hashedToken = hashed
+            )
+        )
     }
 
     private fun hashToken(token: String): String {
