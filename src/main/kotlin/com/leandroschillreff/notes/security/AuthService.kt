@@ -1,5 +1,6 @@
 package com.leandroschillreff.notes.security
 
+import com.leandroschillreff.notes.database.model.RefreshToken
 import com.leandroschillreff.notes.database.model.User
 import com.leandroschillreff.notes.database.repository.RefreshTokenRepository
 import com.leandroschillreff.notes.database.repository.UserRepository
@@ -44,6 +45,11 @@ class AuthService(
         val expiryMs = jwtService.refreshTokenValidityMs
         val espiresAt = Instant.now().plusMillis(expiryMs)
 
+        refreshTokenRepository.save(
+            RefreshToken(
+
+            )
+        )
     }
 
     private fun hashToken(token: String): String {
