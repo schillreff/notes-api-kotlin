@@ -40,6 +40,7 @@ class AuthService(
 
     private fun storeRefreshToken(userId: ObjectId, rawRefreshToken: String) {
         val hashed = hashToken(rawRefreshToken)
+        val expiryMs = jwtService.refreshTokenValidityMs
     }
 
     private fun hashToken(token: String): String {
