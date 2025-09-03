@@ -7,6 +7,7 @@ import org.bson.types.ObjectId
 import org.springframework.security.authentication.BadCredentialsException
 import org.springframework.stereotype.Service
 import java.security.MessageDigest
+import java.time.Instant
 import java.util.*
 
 @Service
@@ -41,6 +42,8 @@ class AuthService(
     private fun storeRefreshToken(userId: ObjectId, rawRefreshToken: String) {
         val hashed = hashToken(rawRefreshToken)
         val expiryMs = jwtService.refreshTokenValidityMs
+        val espiresAt = Instant.now().plusMillis(expiryMs)
+
     }
 
     private fun hashToken(token: String): String {
