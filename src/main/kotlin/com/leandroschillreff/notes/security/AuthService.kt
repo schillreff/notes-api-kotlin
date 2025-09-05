@@ -53,7 +53,12 @@ class AuthService(
         }
 
         val hashed = hashToken(refreshToken)
-        refreshTokenRepository.findByUserIdAndHashedToken(user.id, hashed)
+        refreshTokenRepository.findByUserIdAndHashedToken(
+            user.id,
+            hashed
+        ) ?: throw IllegalArgumentException("Refresh token not recognized (maybe used or expired).")
+
+
     }
 
     private fun storeRefreshToken(userId: ObjectId, rawRefreshToken: String) {
