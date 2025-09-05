@@ -59,6 +59,13 @@ class AuthService(
         ) ?: throw IllegalArgumentException("Refresh token not recognized (maybe used or expired).")
 
         refreshTokenRepository.deleteByUserIdAndHashedToken(user.id, hashed)
+
+        val newAccessToken = jwtService.generateAccessToken(userId)
+        val newRefreshToken = jwtService.generateRefreshToken(userId)
+
+        storeRefreshToken(user.id, newRefreshToken)
+
+        return TokenPair(accessToken = newAccessToken, refreshToken = newRefreshToken)
     }
 
     private fun storeRefreshToken(userId: ObjectId, rawRefreshToken: String) {
