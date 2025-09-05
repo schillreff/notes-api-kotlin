@@ -58,7 +58,7 @@ class AuthService(
             hashed
         ) ?: throw IllegalArgumentException("Refresh token not recognized (maybe used or expired).")
 
-
+        refreshTokenRepository.deleteByUserIdAndHashedToken(user.id, hashed)
     }
 
     private fun storeRefreshToken(userId: ObjectId, rawRefreshToken: String) {
