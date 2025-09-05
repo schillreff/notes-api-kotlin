@@ -46,6 +46,8 @@ class AuthService(
         if (!jwtService.validateRefreshToken(refreshToken)) {
             throw IllegalArgumentException("Invalid refresh token.")
         }
+
+        val userId = jwtService.getUserIdFromToken(refreshToken)
     }
 
     private fun storeRefreshToken(userId: ObjectId, rawRefreshToken: String) {
