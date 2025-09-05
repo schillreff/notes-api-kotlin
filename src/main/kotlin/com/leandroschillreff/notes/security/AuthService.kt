@@ -48,6 +48,7 @@ class AuthService(
         }
 
         val userId = jwtService.getUserIdFromToken(refreshToken)
+        val user = userRepository.findById(ObjectId(userId))
     }
 
     private fun storeRefreshToken(userId: ObjectId, rawRefreshToken: String) {
