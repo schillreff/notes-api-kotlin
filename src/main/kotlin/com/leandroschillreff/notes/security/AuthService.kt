@@ -53,6 +53,7 @@ class AuthService(
         }
 
         val hashed = hashToken(refreshToken)
+        refreshTokenRepository.findByUserIdAndHashedToken(user.id, hashed)
     }
 
     private fun storeRefreshToken(userId: ObjectId, rawRefreshToken: String) {
