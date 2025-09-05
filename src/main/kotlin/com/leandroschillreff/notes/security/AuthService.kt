@@ -43,7 +43,9 @@ class AuthService(
     }
 
     fun refresh(refreshToken: String): TokenPair {
+        if (!jwtService.validateRefreshToken(refreshToken)) {
 
+        }
     }
 
     private fun storeRefreshToken(userId: ObjectId, rawRefreshToken: String) {
