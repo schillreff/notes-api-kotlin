@@ -51,6 +51,8 @@ class AuthService(
         val user = userRepository.findById(ObjectId(userId)).orElseThrow {
             IllegalArgumentException("Invalid refresh token.")
         }
+
+        val hashed = hashToken(refreshToken)
     }
 
     private fun storeRefreshToken(userId: ObjectId, rawRefreshToken: String) {
