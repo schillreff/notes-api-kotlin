@@ -44,7 +44,7 @@ class AuthService(
 
     fun refresh(refreshToken: String): TokenPair {
         if (!jwtService.validateRefreshToken(refreshToken)) {
-
+            throw IllegalArgumentException("Invalid refresh token.")
         }
     }
 
