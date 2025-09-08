@@ -37,6 +37,7 @@ class NoteController(
     fun save(
         @RequestBody body: NoteRequest
     ): NoteResponse {
+        val ownerId = SecurityContextHolder.getContext().authentication.principal as String
         val note = repository.save(
             Note(
                 id = body.id?.let { ObjectId(it) } ?: ObjectId.get(),
@@ -44,7 +45,7 @@ class NoteController(
                 content = body.content,
                 color = body.color,
                 createdAt = Instant.now(),
-                ownerId = ObjectId()
+                ownerId = ObjectId(ownerId)
             )
         )
 
