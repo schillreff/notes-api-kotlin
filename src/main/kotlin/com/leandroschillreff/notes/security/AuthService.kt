@@ -5,9 +5,11 @@ import com.leandroschillreff.notes.database.model.User
 import com.leandroschillreff.notes.database.repository.RefreshTokenRepository
 import com.leandroschillreff.notes.database.repository.UserRepository
 import org.bson.types.ObjectId
+import org.springframework.http.HttpStatusCode
 import org.springframework.security.authentication.BadCredentialsException
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
+import org.springframework.web.server.ResponseStatusException
 import java.security.MessageDigest
 import java.time.Instant
 import java.util.*
@@ -46,7 +48,7 @@ class AuthService(
     @Transactional
     fun refresh(refreshToken: String): TokenPair {
         if (!jwtService.validateRefreshToken(refreshToken)) {
-            throw IllegalArgumentException("Invalid refresh token.")
+            throw ResponseStatusException(HttpStatusCode.valueOf(401), "Invalid refresh token.")
         }
 
         val userId = jwtService.getUserIdFromToken(refreshToken)
