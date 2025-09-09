@@ -1,6 +1,9 @@
 package com.leandroschillreff.notes.controllers
 
 import com.leandroschillreff.notes.security.AuthService
+import jakarta.validation.Valid
+import jakarta.validation.constraints.Email
+import jakarta.validation.constraints.NotBlank
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
@@ -12,7 +15,9 @@ class AuthController(
     private val authService: AuthService
 ) {
     data class AuthRequest(
+        @field:Email(message = "Invalid email format.")
         val email: String,
+        @field:NotBlank(message = "Password must not be blank.")
         val password: String
     )
 
@@ -21,12 +26,12 @@ class AuthController(
     )
 
     @PostMapping("/register")
-    fun register(@RequestBody body: AuthRequest) {
+    fun register(@Valid @RequestBody body: AuthRequest) {
         authService.register(body.email, body.password)
     }
 
     @PostMapping("/login")
-    fun login(@RequestBody body: AuthRequest): AuthService.TokenPair {
+    fun login(@Valid @RequestBody body: AuthRequest): AuthService.TokenPair {
         return authService.login(body.email, body.password)
     }
 
