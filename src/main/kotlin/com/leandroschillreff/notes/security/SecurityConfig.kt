@@ -11,9 +11,10 @@ class SecurityConfig {
 
     @Bean
     fun filterChain(httpSecurity: HttpSecurity): SecurityFilterChain {
-        return httpSecurity
-            .csrf { csrf -> csrf.disable() }
+        return httpSecurity.csrf { csrf -> csrf.disable() }
             .sessionManagement { it.sessionCreationPolicy(SessionCreationPolicy.STATELESS) }
-            .build()
+            .authorizeHttpRequests { auth ->
+                auth.requestMatchers("/auth/**").permitAll()
+            }.build()
     }
 }
