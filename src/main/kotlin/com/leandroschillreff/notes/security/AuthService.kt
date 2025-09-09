@@ -27,6 +27,10 @@ class AuthService(
     )
 
     fun register(email: String, password: String): User {
+        val user = userRepository.findByEmail(email.trim())
+        if(user != null) {
+            throw ResponseStatusException(HttpStatusCode.valueOf(409), "User with this email already exists.")
+        }
         return userRepository.save(User(email = email, hashedPassword = hashEncoder.encode(password)))
     }
 
